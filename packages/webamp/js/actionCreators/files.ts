@@ -406,6 +406,16 @@ export function addDirAtIndex(nextIndex: number): Thunk {
   };
 }
 
+export function addYouTubePlaylist(): Thunk {
+  return async (_dispatch, _getState, { handleAddYouTubeEvent }) => {
+    if (handleAddYouTubeEvent) {
+      handleAddYouTubeEvent();
+      return;
+    }
+    alert("YouTube playlists are not supported in this build.");
+  };
+}
+
 export function addFilesFromUrl(atIndex = 0): Thunk {
   return async (dispatch, getState, { handleAddUrlEvent }) => {
     if (handleAddUrlEvent) {

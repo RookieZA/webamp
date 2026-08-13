@@ -334,3 +334,130 @@ body {
 .skin-browser-footer a {
   color: #000080;
 }
+
+/* YouTube playlist window */
+.yt-window {
+  position: fixed;
+  top: 60px;
+  right: 40px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  background-color: #c0c0c0;
+  border: 2px outset #dfdfdf;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+  font-family: "MS Sans Serif", "Segoe UI", sans-serif;
+  font-size: 11px;
+  -webkit-font-smoothing: none;
+  z-index: 1000;
+}
+
+.yt-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: white;
+  font-weight: bold;
+  padding: 3px 3px 3px 5px;
+}
+
+.yt-close {
+  width: 18px;
+  height: 16px;
+  padding: 0;
+  border: 1px outset #dfdfdf;
+  background-color: #c0c0c0;
+  color: black;
+  font-family: inherit;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.yt-close:active {
+  border-style: inset;
+}
+
+.yt-body {
+  padding: 6px;
+}
+
+.yt-toolbar {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+.yt-input {
+  flex: 1;
+  min-width: 0;
+  padding: 3px 4px;
+  border: 2px inset #dfdfdf;
+  background-color: white;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.yt-button {
+  flex: none;
+  padding: 3px 10px;
+  border: 2px outset #dfdfdf;
+  background-color: #c0c0c0;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.yt-button:active {
+  border-style: inset;
+}
+
+.yt-status {
+  margin-top: 6px;
+  min-height: 14px;
+  color: #202020;
+}
+
+.yt-error {
+  color: #a00000;
+}
+
+.yt-note {
+  margin-top: 6px;
+  color: #505050;
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+/* Persistent YouTube player. Lives outside React so closing the load dialog
+   doesn't interrupt playback, and so the iframe is never moved in the DOM
+   (which would reload it). */
+.yt-player-host {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  width: 204px;
+  background-color: #c0c0c0;
+  border: 2px outset #dfdfdf;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+  font-family: "MS Sans Serif", "Segoe UI", sans-serif;
+  font-size: 11px;
+  -webkit-font-smoothing: none;
+  z-index: 999;
+}
+
+.yt-player-host.hidden {
+  display: none;
+}
+
+.yt-player-host-bar {
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: white;
+  font-weight: bold;
+  padding: 3px 5px;
+}
+
+.yt-player-host iframe {
+  display: block;
+}

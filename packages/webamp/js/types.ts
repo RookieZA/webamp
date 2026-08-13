@@ -60,16 +60,7 @@ export interface MilkdropMessage {
 }
 
 export type Band =
-  | 60
-  | 170
-  | 310
-  | 600
-  | 1000
-  | 3000
-  | 6000
-  | 12000
-  | 14000
-  | 16000;
+  60 | 170 | 310 | 600 | 1000 | 3000 | 6000 | 12000 | 14000 | 16000;
 
 export type Slider = Band | "preamp";
 
@@ -178,9 +169,7 @@ export type LazyButterchurnPresetJson = {
 };
 
 export type Preset =
-  | ButterchurnPresetJson
-  | ButterchurnPresetUrl
-  | LazyButterchurnPresetJson;
+  ButterchurnPresetJson | ButterchurnPresetUrl | LazyButterchurnPresetJson;
 
 export type StatePreset =
   | { type: "RESOLVED"; name: string; preset: Object }
@@ -555,10 +544,7 @@ export type Action =
     };
 
 export type MediaTagRequestStatus =
-  | "INITIALIZED"
-  | "FAILED"
-  | "COMPLETE"
-  | "NOT_REQUESTED";
+  "INITIALIZED" | "FAILED" | "COMPLETE" | "NOT_REQUESTED";
 
 /** The status of the current media. */
 export type MediaStatus = "PLAYING" | "STOPPED" | "PAUSED";
@@ -717,13 +703,15 @@ export interface Options {
        * Indicates if this options should be made available when the user is offline.
        */
       requiresNetwork: boolean;
-    }
+    },
   ];
   zIndex?: number;
   handleTrackDropEvent?: (
     e: React.DragEvent<HTMLDivElement>
   ) => Track[] | null | Promise<Track[] | null>;
   handleAddUrlEvent?: () => Track[] | null | Promise<Track[] | null>;
+  /** Invoked by the "YTLIST" entry in the playlist's ADD menu. */
+  handleAddYouTubeEvent?: () => void;
   handleLoadListEvent?: () => Track[] | null | Promise<Track[] | null>;
   handleSaveListEvent?: (tracks: Track[]) => null | Promise<null>;
 
@@ -910,6 +898,8 @@ export interface Extras {
     e: React.DragEvent<HTMLDivElement>
   ) => Track[] | null | Promise<Track[] | null>;
   handleAddUrlEvent?: () => Track[] | null | Promise<Track[] | null>;
+  /** Invoked by the "YTLIST" entry in the playlist's ADD menu. */
+  handleAddYouTubeEvent?: () => void;
   handleLoadListEvent?: () => Track[] | null | Promise<Track[] | null>;
   handleSaveListEvent?: (tracks: Track[]) => null | Promise<null>;
 }

@@ -312,3 +312,28 @@
   width: 72px;
   overflow: hidden;
 }
+
+#webamp #playlist-add-menu.playlist-menu .bar {
+  height: 72px;
+}
+
+/* YTLIST is not a Winamp original, so no skin provides a sprite for it.
+   Render a text label sized like the sprite entries instead. */
+#webamp #playlist-add-menu .add-ytlist {
+  width: 22px;
+  height: 18px;
+  font-family: "Arial", sans-serif;
+  font-size: 7px;
+  font-weight: bold;
+  line-height: 18px;
+  text-align: center;
+  color: #00ff00;
+  background-color: #000000;
+  cursor: pointer;
+  letter-spacing: -0.5px;
+}
+
+#webamp #playlist-add-menu .hover .add-ytlist {
+  color: #000000;
+  background-color: #00ff00;
+}

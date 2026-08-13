@@ -1,5 +1,5 @@
 import WebampLazy from "../../webamp/js/webampLazy";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import WebampIcon from "./WebampIcon";
 // import Mp3Icon from "./Mp3Icon";
 import SkinIcon from "./SkinIcon";
@@ -9,6 +9,8 @@ import availableSkins from "./availableSkins";
 import DesktopIcon from "./DesktopIcon";
 import DesktopLinkIcon from "./DesktopLinkIcon";
 import SkinBrowser from "./SkinBrowser";
+import YouTubeWindow from "./YouTubeWindow";
+import * as YouTube from "./youtube";
 import { log } from "./logger";
 import museumIcon from "../images/icons/internet-folder-32x32.png";
 import soundcloudIcon from "../images/icons/soundcloud-32x32.png";
@@ -28,6 +30,14 @@ const HORIZONTAL_MARGIN = 10;
 const DemoDesktop = ({ webamp, soundCloudPlaylist }: Props) => {
   const { width } = useWindowSize();
   const [skinBrowserOpen, setSkinBrowserOpen] = useState(false);
+  const [youTubeOpen, setYouTubeOpen] = useState(false);
+
+  // The playlist's YTLIST menu entry lives inside Webamp, so it reaches us
+  // through a module-level callback rather than props.
+  useEffect(() => {
+    YouTube.onOpenRequested(() => setYouTubeOpen(true));
+    return () => YouTube.onOpenRequested(null);
+  }, []);
   const visibleWidth = width - VERTICAL_MARGIN * 2;
 
   const columns = Math.floor(visibleWidth / ICON_WIDTH);
@@ -44,6 +54,14 @@ const DemoDesktop = ({ webamp, soundCloudPlaylist }: Props) => {
           setSkinBrowserOpen(true);
         }}
       />,
+      <DesktopIcon
+        iconUrl={museumIcon}
+        name="YouTube"
+        onOpen={() => {
+          log({ category: "YouTube", action: "open", label: "desktop" });
+          setYouTubeOpen(true);
+        }}
+      />,
       /*
       ...defaultInitialTracks.map((track) => {
         return <Mp3Icon webamp={webamp} track={track} />;
@@ -51,7 +69,7 @@ const DemoDesktop = ({ webamp, soundCloudPlaylist }: Props) => {
       */
       ...availableSkins.map((skin) => {
         return <SkinIcon webamp={webamp} skin={skin} />;
-      }),
+      })
       /*
       <MilkIcon
         webamp={webamp}
@@ -80,6 +98,9 @@ const DemoDesktop = ({ webamp, soundCloudPlaylist }: Props) => {
           webamp={webamp}
           onClose={() => setSkinBrowserOpen(false)}
         />
+      )}
+      {youTubeOpen && (
+        <YouTubeWindow webamp={webamp} onClose={() => setYouTubeOpen(false)} />
       )}
       <div
         id="desktop"

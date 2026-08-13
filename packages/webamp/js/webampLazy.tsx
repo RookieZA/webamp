@@ -90,6 +90,7 @@ class Webamp {
       requireButterchurnPresets,
       handleTrackDropEvent,
       handleAddUrlEvent,
+      handleAddYouTubeEvent,
       handleLoadListEvent,
       handleSaveListEvent,
       enableDoubleSizeMode,
@@ -140,6 +141,7 @@ class Webamp {
         // @ts-ignore Typescript is drunk.
         handleTrackDropEvent,
         handleAddUrlEvent,
+        handleAddYouTubeEvent,
         handleLoadListEvent,
         handleSaveListEvent,
       }

@@ -11,10 +11,14 @@ import { Action, Options, AppState, WindowLayout } from "../../webamp/js/types";
 import { getButterchurnOptions } from "./butterchurnOptions";
 import dropboxFilePicker from "./dropboxFilePicker";
 import availableSkins from "./availableSkins";
+import * as YouTube from "./youtube";
 
 import { initialTracks, initialState } from "./config";
 import screenshotInitialState from "./screenshotInitialState";
-import { InjectableDependencies, PrivateOptions } from "../../webamp/js/webampLazy";
+import {
+  InjectableDependencies,
+  PrivateOptions,
+} from "../../webamp/js/webampLazy";
 
 const NOISY_ACTION_TYPES = new Set([
   "STEP_MARQUEE",
@@ -96,9 +100,10 @@ export async function getWebampConfig(
     initialTracks: screenshot
       ? undefined
       : soundCloudPlaylist != null
-      ? SoundCloud.tracksFromPlaylist(soundCloudPlaylist)
-      : initialTracks,
+        ? SoundCloud.tracksFromPlaylist(soundCloudPlaylist)
+        : initialTracks,
     availableSkins,
+    handleAddYouTubeEvent: () => YouTube.requestOpen(),
     windowLayout,
     filePickers: [dropboxFilePicker],
     enableHotkeys: true,
