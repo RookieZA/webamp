@@ -324,6 +324,8 @@ export class YouTubeBridge {
   _unsubscribe: (() => void) | null = null;
   _vizTimer: number | null = null;
   _vizPhase = 0;
+  // Last volume pushed to YouTube, so we only postMessage on actual changes.
+  _lastVolume: number | null = null;
   _disposed = false;
 
   constructor(webamp: WebampLazy, player: any) {
@@ -439,6 +441,24 @@ export class YouTubeBridge {
       const elapsed = state.media.timeElapsed ?? 0;
       if (Math.abs(ytTime - elapsed) > 2) {
         this._player.seekTo(elapsed, true);
+      }
+    });
+
+    // Webamp's volume slider only controls the silent track it's playing, so
+    // push it to YouTube too. Both use a 0-100 scale.
+    this._safe(() => {
+      const volume = state.media.volume;
+      if (volume === this._lastVolume) {
+        return;
+      }
+      this._lastVolume = volume;
+      this._player.setVolume(volume);
+      // YouTube keeps its own mute flag, which survives setVolume(0). Without
+      // this, dropping to 0 and back up would stay silent.
+      if (volume === 0) {
+        this._player.mute();
+      } else if (this._player.isMuted()) {
+        this._player.unMute();
       }
     });
 
