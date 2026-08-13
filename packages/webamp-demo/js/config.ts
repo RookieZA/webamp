@@ -156,7 +156,10 @@ export const defaultInitialTracks: URLTrack[] = [
   },
 ];
 
-export const initialTracks = config.initialTracks || defaultInitialTracks;
+// Start with an empty playlist. Tracks can still be supplied via the URL hash
+// config, and `defaultInitialTracks` above is kept around so the old demo
+// playlist is easy to restore.
+export const initialTracks = config.initialTracks;
 
 export const disableMarquee = config.disableMarquee || false;
 export const initialState = config.initialState || undefined;
