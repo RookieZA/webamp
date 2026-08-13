@@ -1,12 +1,15 @@
 import WebampLazy from "../../webamp/js/webampLazy";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import WebampIcon from "./WebampIcon";
 // import Mp3Icon from "./Mp3Icon";
 import SkinIcon from "./SkinIcon";
 import { /* defaultInitialTracks, */ SHOW_DESKTOP_ICONS } from "./config";
 import { useWindowSize } from "../../webamp/js/hooks";
 import availableSkins from "./availableSkins";
+import DesktopIcon from "./DesktopIcon";
 import DesktopLinkIcon from "./DesktopLinkIcon";
+import SkinBrowser from "./SkinBrowser";
+import { log } from "./logger";
 import museumIcon from "../images/icons/internet-folder-32x32.png";
 import soundcloudIcon from "../images/icons/soundcloud-32x32.png";
 import { SoundCloudPlaylist } from "./SoundCloud";
@@ -24,6 +27,7 @@ const HORIZONTAL_MARGIN = 10;
 
 const DemoDesktop = ({ webamp, soundCloudPlaylist }: Props) => {
   const { width } = useWindowSize();
+  const [skinBrowserOpen, setSkinBrowserOpen] = useState(false);
   const visibleWidth = width - VERTICAL_MARGIN * 2;
 
   const columns = Math.floor(visibleWidth / ICON_WIDTH);
@@ -32,6 +36,14 @@ const DemoDesktop = ({ webamp, soundCloudPlaylist }: Props) => {
 
   if (SHOW_DESKTOP_ICONS) {
     icons.push(
+      <DesktopIcon
+        iconUrl={museumIcon}
+        name="All Skins"
+        onOpen={() => {
+          log({ category: "SkinBrowser", action: "open", label: "desktop" });
+          setSkinBrowserOpen(true);
+        }}
+      />,
       /*
       ...defaultInitialTracks.map((track) => {
         return <Mp3Icon webamp={webamp} track={track} />;
@@ -49,11 +61,7 @@ const DemoDesktop = ({ webamp, soundCloudPlaylist }: Props) => {
           name: "105",
         }}
       />
-      */ <DesktopLinkIcon
-        iconUrl={museumIcon}
-        name="Winamp Skin Musuem"
-        href={"https://skins.webamp.org"}
-      />
+      */
     );
     if (soundCloudPlaylist != null) {
       icons.push(
@@ -66,41 +74,49 @@ const DemoDesktop = ({ webamp, soundCloudPlaylist }: Props) => {
     }
   }
   return (
-    <div
-      id="desktop"
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        // bottom: 0,
-        marginTop: VERTICAL_MARGIN,
-        marginLeft: HORIZONTAL_MARGIN,
-      }}
-    >
-      <Suspense
-        fallback={null /* Wait for all icons to load before showing any */}
+    <>
+      {skinBrowserOpen && (
+        <SkinBrowser
+          webamp={webamp}
+          onClose={() => setSkinBrowserOpen(false)}
+        />
+      )}
+      <div
+        id="desktop"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          // bottom: 0,
+          marginTop: VERTICAL_MARGIN,
+          marginLeft: HORIZONTAL_MARGIN,
+        }}
       >
-        {icons.map((icon, i) => {
-          const row = Math.floor(i / columns);
-          const column = i % columns;
-          return (
-            <div
-              className="loaded-icon"
-              key={i}
-              style={{
-                left: column * ICON_WIDTH,
-                top: row * ICON_HEIGHT,
-                width: ICON_WIDTH,
-                position: "absolute",
-              }}
-            >
-              {icon}
-            </div>
-          );
-        })}
-      </Suspense>
-    </div>
+        <Suspense
+          fallback={null /* Wait for all icons to load before showing any */}
+        >
+          {icons.map((icon, i) => {
+            const row = Math.floor(i / columns);
+            const column = i % columns;
+            return (
+              <div
+                className="loaded-icon"
+                key={i}
+                style={{
+                  left: column * ICON_WIDTH,
+                  top: row * ICON_HEIGHT,
+                  width: ICON_WIDTH,
+                  position: "absolute",
+                }}
+              >
+                {icon}
+              </div>
+            );
+          })}
+        </Suspense>
+      </div>
+    </>
   );
 };
 

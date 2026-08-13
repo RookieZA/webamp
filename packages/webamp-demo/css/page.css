@@ -184,3 +184,153 @@ body {
 .desktop-icon.selected img {
   filter: brightness(0.35) sepia(100%) hue-rotate(148deg) saturate(10);
 }
+
+/* Skin browser: a Win95-ish window for exploring the Winamp Skin Museum */
+.skin-browser {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 900px);
+  height: min(85vh, 700px);
+  display: flex;
+  flex-direction: column;
+  background-color: #c0c0c0;
+  border: 2px outset #dfdfdf;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+  font-family: "MS Sans Serif", "Segoe UI", sans-serif;
+  font-size: 11px;
+  -webkit-font-smoothing: none;
+  /* Above Webamp's windows and its context menus */
+  z-index: 1000;
+}
+
+.skin-browser-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: white;
+  font-weight: bold;
+  padding: 3px 3px 3px 5px;
+  flex: none;
+}
+
+.skin-browser-close {
+  width: 18px;
+  height: 16px;
+  padding: 0;
+  border: 1px outset #dfdfdf;
+  background-color: #c0c0c0;
+  color: black;
+  font-family: inherit;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.skin-browser-close:active {
+  border-style: inset;
+}
+
+.skin-browser-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  flex: none;
+}
+
+.skin-browser-search {
+  flex: 1;
+  min-width: 0;
+  padding: 3px 4px;
+  border: 2px inset #dfdfdf;
+  background-color: white;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.skin-browser-count {
+  flex: none;
+  color: #404040;
+  white-space: nowrap;
+}
+
+.skin-browser-results {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 6px;
+  padding: 6px;
+  background-color: white;
+  border: 2px inset #dfdfdf;
+}
+
+.skin-browser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.skin-browser-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid transparent;
+  background: none;
+  font-family: inherit;
+  font-size: 11px;
+  color: black;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.skin-browser-cell:hover {
+  background-color: #e8e8f0;
+  border-color: #000080;
+}
+
+.skin-browser-cell.selected {
+  background-color: #000080;
+  color: white;
+}
+
+.skin-browser-screenshot {
+  width: 100%;
+  max-width: 137px;
+  aspect-ratio: 275 / 348;
+  object-fit: contain;
+  image-rendering: pixelated;
+  background-color: #c0c0c0;
+}
+
+.skin-browser-cell-name {
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.skin-browser-status {
+  padding: 16px;
+  text-align: center;
+  color: #404040;
+}
+
+.skin-browser-error {
+  color: #a00000;
+}
+
+.skin-browser-footer {
+  flex: none;
+  padding: 6px;
+  color: #404040;
+}
+
+.skin-browser-footer a {
+  color: #000080;
+}
