@@ -1,0 +1,12 @@
+# Keep the build context small. The 68MB context in the Coolify logs was
+# mostly git history and installed dependencies, none of which the image needs.
+.git
+.github
+node_modules
+**/node_modules
+**/dist
+**/build
+**/.next
+**/.turbo
+*.log
+.DS_Store
