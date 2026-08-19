@@ -1788,8 +1788,12 @@ export default class SystemObject extends BaseObject {
   iskeydown(vk: number): number {
     return unimplemented(0);
   }
+  minimizeapplication() {
+    this._uiRoot.minimizeApplication();
+  }
+
   isminimized(): number {
-    return unimplemented(0);
+    return this._uiRoot.isMinimized() ? 1 : 0;
   }
   isdesktopalphaavailable(): boolean {
     // whether or not irregular window shape is supported by platform.

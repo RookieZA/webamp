@@ -67,8 +67,9 @@ export class UIRoot {
   _gammaNames = {};
   _dummyGammaGroup: GammaGroup = null;
   _activeGammaSetName: string = "";
-  _xuiGroupDefs: { [xuitag: string]: /* groupdef_id */ string } = {};
   _activeGammaSet: GammaGroup[] = [];
+  _minimized: boolean = false;
+  _xuiGroupDefs: { [xuitag: string]: /* groupdef_id */ string } = {};
   _containers: Container[] = [];
   _systemObjects: SystemObject[] = [];
   // _buckets: { [wndType: string]: ComponentBucket } = {};
@@ -578,6 +579,9 @@ export class UIRoot {
       case "close":
         this.closeContainer();
         break;
+      case "minimize":
+        this.minimizeApplication();
+        break;
 
       case "menu":
         getWa5Popup(param, this).popatmouse();
@@ -666,9 +670,24 @@ export class UIRoot {
   };
 
   toggleContainer(param: string) {
-    const container = this.findContainer(param);
+    const container = this._containers.find(
+      (c) => c.getId().toLowerCase() == param.toLowerCase()
+    );
     assume(container != null, `Can not toggle on unknown container: ${param}`);
     container.toggle();
+  }
+
+  isMinimized(): boolean {
+    return this._minimized;
+  }
+
+  minimizeApplication() {
+    this._minimized = true;
+    if (this._div) {
+      this._div.style.display = "none";
+    }
+    this.trigger("minimize", this._minimized);
+    // Note: restoring would be handled externally or via a taskbar in the web UI.
   }
 
   getContainerVisible(param: string): boolean {

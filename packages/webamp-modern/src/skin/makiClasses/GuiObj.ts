@@ -281,24 +281,38 @@ export default class GuiObj extends XmlObj {
     this._div.addEventListener("mousedown", (e) => {
       e.stopPropagation();
       // e.preventDefault();
-      console.log("mouse-down!");
+      const rect = this._div.getBoundingClientRect();
+      const localX = e.clientX - rect.left;
+      const localY = e.clientY - rect.top;
       this.onLeftButtonDown(
-        e.offsetX + this.getleft(),
-        e.offsetY + this.gettop()
+        localX + this.getleft(),
+        localY + this.gettop()
       );
 
       const mouseUpHandler = (e: MouseEvent) => {
         // e.stopPropagation();
         // e.preventDefault();
-        console.log("mouse-up!");
+        const rect = this._div.getBoundingClientRect();
+        const localX = e.clientX - rect.left;
+        const localY = e.clientY - rect.top;
         this.onLeftButtonUp(
-          e.offsetX + this.getleft(),
-          e.offsetY + this.gettop()
+          localX + this.getleft(),
+          localY + this.gettop()
         );
         this._div.removeEventListener("mouseup", mouseUpHandler);
       };
       this._div.addEventListener("mouseup", mouseUpHandler);
     });
+
+    this._div.addEventListener("wheel", (e) => {
+      // Delta mapping is not perfect, but gives us direction.
+      if (e.deltaY > 0) {
+        this.onMouseWheelDown(1, 1);
+      } else if (e.deltaY < 0) {
+        this.onMouseWheelUp(1, 1);
+      }
+    });
+
     this._div.addEventListener("mouseenter", (e) => {
       this.onEnterArea();
     });
@@ -628,6 +642,26 @@ export default class GuiObj extends XmlObj {
    */
   onLeaveArea() {
     this._uiRoot.vm.dispatch(this, "onleavearea");
+  }
+
+  /**
+   * Hookable. Event happens when the mouse wheel is scrolled up.
+   */
+  onMouseWheelUp(clicked: number, lines: number) {
+    this._uiRoot.vm.dispatch(this, "onmousewheelup", [
+      { type: "INT", value: clicked },
+      { type: "INT", value: lines },
+    ]);
+  }
+
+  /**
+   * Hookable. Event happens when the mouse wheel is scrolled down.
+   */
+  onMouseWheelDown(clicked: number, lines: number) {
+    this._uiRoot.vm.dispatch(this, "onmousewheeldown", [
+      { type: "INT", value: clicked },
+      { type: "INT", value: lines },
+    ]);
   }
 
   /**
